@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop</title>
+
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- Font Awesome CDN Link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Custom CSS File Link  -->
+    <link rel="stylesheet" href="../css/style3.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "RxVSebQGJxgnYgHHL",
+      });
+   })();
+</script>
+</head>
+
+<body>
+<section class="book" id="book">
+    <h1 class="heading">booking <span>reserve a table</span></h1>
+
+    <form action="">
+        <input class="box" type="text" id="fullName" placeholder="Full Name" class="box">
+        <input class="box" type="email"  id="email_id" placeholder="Email" class="box">
+        <input  type="number" placeholder="Number" class="box">
+        <textarea name="" id="message" placeholder="Message" class="box"  cols="30" rows="10"></textarea>
+        <!-- <input type="submit" value="send message" class="btn"> -->
+        <button  onclick="SendMail()">Send</button>
+    </form>
+</section>
+<script src="../js/sendEmail.js" type="text/javascript"></script>
+</body>
+</html>

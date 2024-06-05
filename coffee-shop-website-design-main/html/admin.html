@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tutorial CRUD</title>
+    <!-- <link rel="stylesheet" href="../css/style2.css" /> -->
+    <style>
+      /* Styles for modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        background-color: #fff;
+        margin: 20% auto;
+        padding: 20px;
+        width: 60%;
+        border-radius: 5px;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <h2>Product CRUD</h2>
+
+    <!-- Button to open the create modal -->
+    <button onclick="openCreateModal()">Create Tutorial</button>
+
+    <!-- Modal for creating a new tutorial -->
+    <div id="createModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeCreateModal()">&times;</span>
+        <h3>Create New Product</h3>
+        <form id="createForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required /><br /><br />
+          <label for="price">Price:</label>
+          <input type="text" id="price" name="price" required /><br /><br />
+          <label for="salePrice">Sale Price:</label>
+          <input
+            type="text"
+            id="salePrice"
+            name="salePrice"
+            required
+          /><br /><br />
+          <label for="saleRate">Sale Rate:</label>
+          <input
+            type="text"
+            id="saleRate"
+            name="saleRate"
+            required
+          /><br /><br />
+          <label for="type">Type:</label>
+          <input type="text" id="type" name="type" required /><br /><br />
+          <label for="imageURL">Image URL:</label>
+          <input
+            type="text"
+            id="imageURL"
+            name="imageURL"
+            required
+          /><br /><br />
+          <label for="published">Published:</label>
+          <input type="checkbox" id="published" name="published" /><br /><br />
+          <button onclick="fetchData()" type="submit">Create</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h3>Edit Tutorial</h3>
+        <form id="editForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name1" name="name" required /><br /><br />
+          <label for="price">Price:</label>
+          <input type="text" id="price1" name="price" required /><br /><br />
+          <label for="salePrice">Sale Price:</label>
+          <input
+            type="text"
+            id="salePrice1"
+            name="salePrice"
+            required
+          /><br /><br />
+          <label for="saleRate">Sale Rate:</label>
+          <input
+            type="text"
+            id="saleRate1"
+            name="saleRate"
+            required
+          /><br /><br />
+          <label for="type">Type:</label>
+          <input type="text" id="type1" name="type" required /><br /><br />
+          <label for="imageURL">Image URL:</label>
+          <input
+            type="text"
+            id="imageURL1"
+            name="imageURL"
+            required
+          /><br /><br />
+          <label for="published">Published:</label>
+          <input type="checkbox" id="published1" name="published" /><br /><br />
+          <button  type="submit">Edit</button>
+        </form>
+      </div>
+    </div>
+
+    <table id="tutorialTable" border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Sale Price</th>
+          <th>Sale Rate</th>
+          <th>Type</th>
+          <th>Image URL</th>
+          <th>Published</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <a href="../html/index.html">Main Page</a>
+
+    <script>
+      const tutorialTable = document
+        .getElementById("tutorialTable")
+        .getElementsByTagName("tbody")[0];
+      const createModal = document.getElementById("createModal");
+      const editModal = document.getElementById("editModal");
+
+      // Fetch and display all tutorials (similar to your previous code)
+      // ...
+
+      // Open the create modal
+      function openCreateModal() {
+        createModal.style.display = "block";
+      }
+
+      // Close the create modal
+      function closeCreateModal() {
+        createModal.style.display = "none";
+      }
+      // Open the create modal
+      function openEditModal() {
+        editModal.style.display = "block";
+      }
+
+      // Close the create modal
+      function closeEditModal() {
+        editModal.style.display = "none";
+      }
+      // Handle form submission for creating a new tutorial
+      document
+        .getElementById("createForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const price = document.getElementById("price").value;
+          const salePrice = document.getElementById("salePrice").value;
+          const saleRate = document.getElementById("saleRate").value;
+          const type = document.getElementById("type").value;
+          const imageURL = document.getElementById("imageURL").value;
+          const published = document.getElementById("published").checked;
+
+          const newTutorial = {
+            name: name,
+            price: price,
+            salePrice: salePrice,
+            saleRate: saleRate,
+            type: type,
+            imageURL: imageURL,
+            published: published,
+          };
+
+          // Send the new tutorial data to your API for creation
+          fetch("http://localhost:8080/api/tutorials", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newTutorial),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert("Tutorial created successfully.");
+              location.reload();
+            })
+            .catch((error) => console.error("Error creating tutorial:", error));
+
+          closeCreateModal();
+        });
+
+      // Fetch and display all tutorials
+      fetch("http://localhost:8080/api/tutorials")
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach((tutorial) => {
+            tutorialTable.innerHTML += `
+                    <tr>
+                        <td>${tutorial.id}</td>
+                        <td>${tutorial.name}</td>
+                        <td>${tutorial.price}</td>
+                        <td>${tutorial.salePrice}</td>
+                        <td>${tutorial.saleRate}</td>
+                        <td>${tutorial.type}</td>
+                        <td>${tutorial.imageURL}</td>
+                        <td>${tutorial.published}</td>
+                        <td>
+                            <button onclick="editTutorial(${tutorial.id})">Edit</button>
+                            <button onclick="deleteTutorial(${tutorial.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+          });
+        })
+        .catch((error) => console.error("Error fetching tutorials:", error));
+
+      // Function to delete a tutorial
+      function deleteTutorial(id) {
+        fetch(`http://localhost:8080/api/tutorials/${id}`, {
+          method: "DELETE",
+        })
+          .then(() => {
+            alert("Tutorial deleted successfully.");
+            location.reload();
+          })
+          .catch((error) => console.error("Error deleting tutorial:", error));
+      }
+
+      // Function to edit a tutorial
+      function editTutorial(id) {
+        openEditModal();
+        document
+          .getElementById("editForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name1").value;
+            const price = document.getElementById("price1").value;
+            const salePrice = document.getElementById("salePrice1").value;
+            const saleRate = document.getElementById("saleRate1").value;
+            const type = document.getElementById("type1").value;
+            const imageURL = document.getElementById("imageURL1").value;
+            const published = document.getElementById("published1").checked;
+
+            const editTutorial = {
+              name: name,
+              price: price,
+              salePrice: salePrice,
+              saleRate: saleRate,
+              type: type,
+              imageURL: imageURL,
+              published: published,
+            };
+            console.log(editTutorial);
+            // Send the new tutorial data to your API for creation
+            fetch(`http://localhost:8080/api/tutorials/${id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(editTutorial),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                alert("Tutorial edited successfully.");
+                location.reload();
+              })
+              .catch((error) => console.error("Error edit tutorial:", error));
+
+            closeEditModal();
+          });
+      }
+    </script>
+   <script src="../js/script2.js"></script>
+  </body>
+</html>
